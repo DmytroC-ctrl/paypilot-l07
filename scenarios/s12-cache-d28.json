@@ -1,0 +1,49 @@
+{
+  "id": "S12",
+  "title": "Кеш промпту: з другого виклику живого кроку модель читає початок промпту з кешу (D28 вставляє на початок змінний Request ref)",
+  "dimension": "cost_cache",
+  "level": [2],
+  "customer_id": "CUS-0010",
+  "gate": "release",
+  "runs": 5,
+  "conditions": {
+    "baseline": {
+      "profile": "clean",
+      "defects": ""
+    },
+    "defect": {
+      "profile": "clean",
+      "defects": "D28"
+    }
+  },
+  "turns": [
+    {
+      "user": "Good morning, please list the accounts I hold.",
+      "model": [
+        {
+          "tool_calls": [
+            {
+              "id": "call_s12_acc",
+              "name": "get_account",
+              "arguments": {}
+            }
+          ]
+        },
+        {
+          "text": "You hold one account: ACC-1011 in GBP."
+        }
+      ]
+    },
+    {
+      "user": "How much can I send per day and per month at the moment?",
+      "live": true
+    }
+  ],
+  "assertions": [
+    {
+      "kind": "cache_read_min",
+      "from_call": 1,
+      "min": 1000
+    }
+  ]
+}

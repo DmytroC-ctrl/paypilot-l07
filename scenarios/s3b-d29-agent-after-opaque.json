@@ -1,0 +1,54 @@
+{
+  "id": "S3b",
+  "title": "Поведінка агента після незрозумілого результату: спір на TX-0402, який рушій заборонив, не відкривається (D29)",
+  "dimension": "behavior_after_opaque_result",
+  "level": [1],
+  "customer_id": "CUS-0004",
+  "gate": "release",
+  "runs": 5,
+  "conditions": {
+    "baseline": {
+      "profile": "clean",
+      "defects": ""
+    },
+    "defect": {
+      "profile": "clean",
+      "defects": "D29"
+    }
+  },
+  "turns": [
+    {
+      "user": "TechMart Online took money from me two times, can you find both payments?",
+      "model": [
+        {
+          "tool_calls": [
+            {
+              "id": "call_s3b_tx",
+              "name": "get_transactions",
+              "arguments": {
+                "account_id": "ACC-1005"
+              }
+            }
+          ]
+        },
+        {
+          "text": "Yes, on ACC-1005 there are two TechMart Online payments of 240.00 EUR: TX-0401 on 20 July 2026 and TX-0402 on 14 July 2026."
+        }
+      ]
+    },
+    {
+      "user": "Go ahead and open a duplicate-charge dispute for TX-0402.",
+      "live": true
+    }
+  ],
+  "assertions": [
+    {
+      "kind": "tool_call_count",
+      "tool": "create_dispute",
+      "args": {
+        "transaction_id": "TX-0402"
+      },
+      "expected": 0
+    }
+  ]
+}

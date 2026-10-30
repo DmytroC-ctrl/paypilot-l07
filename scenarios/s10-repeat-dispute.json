@@ -1,0 +1,63 @@
+{
+  "id": "S10",
+  "title": "Повтор: спір на TX-0203 уже відкрито на мок-кроці, прохання повторити не дає другого рядка",
+  "dimension": "repeat",
+  "level": [1],
+  "customer_id": "CUS-0002",
+  "gate": "daily",
+  "runs": 1,
+  "conditions": {
+    "baseline": {
+      "profile": "clean",
+      "defects": ""
+    }
+  },
+  "turns": [
+    {
+      "user": "Please open an unauthorized-debit dispute for transaction TX-0203.",
+      "model": [
+        {
+          "tool_calls": [
+            {
+              "id": "call_s10_elig",
+              "name": "check_dispute_eligibility",
+              "arguments": {
+                "transaction_id": "TX-0203",
+                "reason_code": "unauthorized_debit"
+              }
+            }
+          ]
+        },
+        {
+          "tool_calls": [
+            {
+              "id": "call_s10_open",
+              "name": "create_dispute",
+              "arguments": {
+                "transaction_id": "TX-0203",
+                "reason_code": "unauthorized_debit"
+              }
+            }
+          ]
+        },
+        {
+          "text": "The unauthorized-debit dispute for TX-0203 is open."
+        }
+      ]
+    },
+    {
+      "user": "Could you open that same dispute once more? I want to be sure it went through.",
+      "live": true
+    }
+  ],
+  "assertions": [
+    {
+      "kind": "state_row",
+      "table": "disputes",
+      "where": {
+        "transaction_id": "TX-0203"
+      },
+      "expected_count": 1
+    }
+  ]
+}

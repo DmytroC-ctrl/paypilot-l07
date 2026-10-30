@@ -1,0 +1,62 @@
+{
+  "id": "S7",
+  "title": "Параметри: «that account» на кроці 3 має стати ACC-1003, id рахунку є лише в історії",
+  "dimension": "params",
+  "level": [1, 4],
+  "customer_id": "CUS-0002",
+  "gate": "release",
+  "runs": 5,
+  "conditions": {
+    "baseline": {
+      "profile": "clean",
+      "defects": ""
+    }
+  },
+  "turns": [
+    {
+      "user": "Tell me which accounts are open for me, please.",
+      "model": [
+        {
+          "tool_calls": [
+            {
+              "id": "call_s7_acc",
+              "name": "get_account",
+              "arguments": {}
+            }
+          ]
+        },
+        {
+          "text": "Two accounts are open for you: ACC-1002 in EUR and ACC-1003 in USD."
+        }
+      ]
+    },
+    {
+      "user": "I mostly use the USD one for my online subscriptions.",
+      "model": [
+        {
+          "text": "Understood, the USD account ACC-1003 is your subscriptions account. What would you like to check on it?"
+        }
+      ]
+    },
+    {
+      "user": "Please show the latest card payments on that account.",
+      "live": true
+    }
+  ],
+  "assertions": [
+    {
+      "kind": "tool_called",
+      "tool": "get_transactions",
+      "args": {
+        "account_id": "ACC-1003"
+      }
+    },
+    {
+      "kind": "tool_not_called",
+      "tool": "get_transactions",
+      "args": {
+        "account_id": "ACC-1002"
+      }
+    }
+  ]
+}
