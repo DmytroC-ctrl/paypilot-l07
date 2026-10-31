@@ -1,0 +1,30 @@
+# date:   2026-10-31T18:41:25+02:00
+# stand:  paypilot-stand-shared, commit 74f1995 (L08, contains 325e2dd)
+# model:  anthropic/claude-haiku-5.5 via OpenRouter, mock = MockServer (37 expectations)
+# command: docker compose run --rm eval --scenario S12 --runs 5
+
+stand http://host.docker.internal:8000: provider openrouter, mock http://host.docker.internal:1080
+
+== S12 · Кеш промпту: з другого виклику живого кроку модель читає початок промпту з кешу (D28 вставляє на початок змінний Request ref)
+S12 baseline run 1 PASS  step 2: 2 model call(s), tools ['check_limits'], cache_read [2514, 2514], cost $0.000242; mock answered 2 of 4 model requests
+    ok  cache_read_min: cache_read per call from #2: [2514]
+S12 baseline run 2 PASS  step 2: 2 model call(s), tools ['check_limits'], cache_read [2514, 2514], cost $0.000244; mock answered 2 of 4 model requests
+    ok  cache_read_min: cache_read per call from #2: [2514]
+S12 baseline run 3 PASS  step 2: 2 model call(s), tools ['check_limits'], cache_read [2514, 2514], cost $0.000221; mock answered 2 of 4 model requests
+    ok  cache_read_min: cache_read per call from #2: [2514]
+S12 baseline run 4 PASS  step 2: 2 model call(s), tools ['check_limits'], cache_read [2514, 2514], cost $0.000233; mock answered 2 of 4 model requests
+    ok  cache_read_min: cache_read per call from #2: [2514]
+S12 baseline run 5 PASS  step 2: 2 model call(s), tools ['check_limits'], cache_read [2514, 2514], cost $0.000263; mock answered 2 of 4 model requests
+    ok  cache_read_min: cache_read per call from #2: [2514]
+   baseline: 5/5 passed
+S12 defect   run 1 FAIL  step 2: 2 model call(s), tools ['check_limits'], cache_read [0, 0], cost $0.000828; mock answered 2 of 4 model requests
+    BAD cache_read_min: cache_read per call from #2: [0]
+S12 defect   run 2 FAIL  step 2: 2 model call(s), tools ['check_limits'], cache_read [0, 0], cost $0.000848; mock answered 2 of 4 model requests
+    BAD cache_read_min: cache_read per call from #2: [0]
+S12 defect   run 3 FAIL  step 2: 2 model call(s), tools ['check_limits'], cache_read [0, 0], cost $0.000834; mock answered 2 of 4 model requests
+    BAD cache_read_min: cache_read per call from #2: [0]
+S12 defect   run 4 FAIL  step 2: 2 model call(s), tools ['check_limits'], cache_read [0, 0], cost $0.000835; mock answered 2 of 4 model requests
+    BAD cache_read_min: cache_read per call from #2: [0]
+S12 defect   run 5 FAIL  step 2: 2 model call(s), tools ['check_limits'], cache_read [0, 0], cost $0.000847; mock answered 2 of 4 model requests
+    BAD cache_read_min: cache_read per call from #2: [0]
+   defect: 0/5 passed

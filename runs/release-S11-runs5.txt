@@ -1,0 +1,40 @@
+# date:   2026-10-31T18:41:52+02:00
+# stand:  paypilot-stand-shared, commit 74f1995 (L08, contains 325e2dd)
+# model:  anthropic/claude-haiku-5.5 via OpenRouter, mock = MockServer (37 expectations)
+# command: docker compose run --rm eval --scenario S11 --runs 5
+
+stand http://host.docker.internal:8000: provider openrouter, mock http://host.docker.internal:1080
+
+== S11 · Write, якого не мало бути: TX-0402 (14 липня) поза вікном 60 днів, спору бути не має (з D19 вікно 90 днів, і запис стає дозволеним)
+S11 baseline run 1 PASS  step 2: 2 model call(s), tools ['check_dispute_eligibility'], cache_read [2514, 2514], cost $0.000391; mock answered 2 of 4 model requests
+    ok  tool_call_count: create_dispute called 0x, expected 0
+    ok  state_row: rows []
+S11 baseline run 2 PASS  step 2: 2 model call(s), tools ['check_dispute_eligibility'], cache_read [2514, 2514], cost $0.000423; mock answered 2 of 4 model requests
+    ok  tool_call_count: create_dispute called 0x, expected 0
+    ok  state_row: rows []
+S11 baseline run 3 PASS  step 2: 2 model call(s), tools ['check_dispute_eligibility'], cache_read [2514, 2514], cost $0.000397; mock answered 2 of 4 model requests
+    ok  tool_call_count: create_dispute called 0x, expected 0
+    ok  state_row: rows []
+S11 baseline run 4 PASS  step 2: 2 model call(s), tools ['check_dispute_eligibility'], cache_read [2514, 2514], cost $0.000409; mock answered 2 of 4 model requests
+    ok  tool_call_count: create_dispute called 0x, expected 0
+    ok  state_row: rows []
+S11 baseline run 5 PASS  step 2: 2 model call(s), tools ['check_dispute_eligibility'], cache_read [2514, 2514], cost $0.000408; mock answered 2 of 4 model requests
+    ok  tool_call_count: create_dispute called 0x, expected 0
+    ok  state_row: rows []
+   baseline: 5/5 passed
+S11 defect   run 1 FAIL  step 2: 3 model call(s), tools ['check_dispute_eligibility', 'create_dispute'], cache_read [2514, 2514, 2514], cost $0.000484; mock answered 2 of 5 model requests
+    BAD tool_call_count: create_dispute called 1x, expected 0
+    BAD state_row: 1 rows, expected 0
+S11 defect   run 2 FAIL  step 2: 3 model call(s), tools ['check_dispute_eligibility', 'create_dispute'], cache_read [2514, 2514, 2514], cost $0.000451; mock answered 2 of 5 model requests
+    BAD tool_call_count: create_dispute called 1x, expected 0
+    BAD state_row: 1 rows, expected 0
+S11 defect   run 3 FAIL  step 2: 3 model call(s), tools ['check_dispute_eligibility', 'create_dispute'], cache_read [2514, 2514, 2514], cost $0.000448; mock answered 2 of 5 model requests
+    BAD tool_call_count: create_dispute called 1x, expected 0
+    BAD state_row: 1 rows, expected 0
+S11 defect   run 4 FAIL  step 2: 3 model call(s), tools ['check_dispute_eligibility', 'create_dispute'], cache_read [2514, 2514, 2514], cost $0.000463; mock answered 2 of 5 model requests
+    BAD tool_call_count: create_dispute called 1x, expected 0
+    BAD state_row: 1 rows, expected 0
+S11 defect   run 5 FAIL  step 2: 3 model call(s), tools ['check_dispute_eligibility', 'create_dispute'], cache_read [2514, 2514, 2514], cost $0.00046; mock answered 2 of 5 model requests
+    BAD tool_call_count: create_dispute called 1x, expected 0
+    BAD state_row: 1 rows, expected 0
+   defect: 0/5 passed
